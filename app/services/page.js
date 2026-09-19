@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import Photo from "@/components/Photo";
 import CtaSection from "@/components/CtaSection";
 import { MotionReveal, StaggerContainer, StaggerItem } from "@/components/MotionWrapper";
+import ProcessStack3D from "@/components/ProcessStack3D";
 import { motion } from "framer-motion";
 
 const SERVICES = [
@@ -180,29 +181,20 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Process Section with 3D Step Cards */}
-      <section className="bg-linen2 py-28 relative overflow-hidden">
+      {/* Process Section with 3D Card Stack (ReelOnGo signature 3D animation) */}
+      <section className="bg-linen2 py-28 relative overflow-hidden border-t border-bark/10">
         <div className="mx-auto max-w-content px-6 md:px-8">
-          <MotionReveal className="mx-auto mb-16 max-w-xl text-center">
+          <MotionReveal className="mx-auto mb-10 max-w-xl text-center">
             <span className="text-[13px] font-semibold tracking-[0.16em] text-rose-deep uppercase">HOW IT WORKS</span>
-            <h2 className="mt-4 font-serif text-[30px] font-medium md:text-[42px]">
+            <h2 className="mt-4 font-serif text-[30px] font-medium md:text-[44px]">
               From first message to <span className="italic text-rose-deep">finished film.</span>
             </h2>
+            <p className="mt-3 text-sm text-sand">
+              Experience our 5-phase production pipeline with interactive 3D stacked cards.
+            </p>
           </MotionReveal>
 
-          <StaggerContainer className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
-            {PROCESS.map((step) => (
-              <StaggerItem key={step.n}>
-                <div className="group h-full rounded-lg border border-bark/10 bg-linen/60 p-8 transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:shadow-xl">
-                  <div className="font-serif text-[42px] italic text-rose-deep/40 group-hover:text-rose-deep transition-colors">
-                    {step.n}
-                  </div>
-                  <h3 className="mt-3.5 text-[18px] font-semibold text-bark">{step.title}</h3>
-                  <p className="mt-2 text-[14px] leading-relaxed text-bark/75">{step.body}</p>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+          <ProcessStack3D />
         </div>
       </section>
 

@@ -8,7 +8,9 @@ import Footer from "@/components/Footer";
 import Photo from "@/components/Photo";
 import CtaSection from "@/components/CtaSection";
 import ShowreelModal from "@/components/ShowreelModal";
-import { MotionReveal, StaggerContainer, StaggerItem, CardTilt3D } from "@/components/MotionWrapper";
+import ReelFanDeck from "@/components/ReelFanDeck";
+import ProcessStack3D from "@/components/ProcessStack3D";
+import { MotionReveal, StaggerContainer, StaggerItem } from "@/components/MotionWrapper";
 import { motion } from "framer-motion";
 
 const FEATURES = [
@@ -214,8 +216,27 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 3D Fan Deck Section (ReelOnGo signature 3D animation) */}
+      <section className="bg-[#fbf7f0] py-28 relative overflow-hidden border-y border-bark/10">
+        <div className="mx-auto max-w-content px-6 md:px-8 text-center mb-10">
+          <MotionReveal>
+            <span className="text-[13px] font-semibold tracking-[0.18em] text-rose-deep uppercase">
+              WORK THAT PERFORMS · 3D REEL SHOWCASE
+            </span>
+            <h2 className="mt-4 font-serif text-[32px] font-medium text-bark md:text-[50px] leading-tight">
+              Real Moments. <span className="italic text-rose-deep">Real Reels.</span>
+            </h2>
+            <p className="mt-3 max-w-xl mx-auto text-sm sm:text-base text-sand">
+              Interact with our latest 4K cinema reels in full 3D perspective — swipe, navigate or click any reel to bring it to center stage.
+            </p>
+          </MotionReveal>
+        </div>
+
+        <ReelFanDeck onSelectReel={() => setShowreelOpen(true)} />
+      </section>
+
       {/* Story Section with Interactive 3D Flatlay */}
-      <section className="bg-linen pb-28">
+      <section className="bg-linen py-28">
         <div className="mx-auto grid max-w-content grid-cols-1 items-center gap-14 px-6 md:grid-cols-2 md:gap-20 md:px-8">
           <MotionReveal delay={0.1} className="flex gap-5 items-center">
             <span
@@ -261,6 +282,27 @@ export default function HomePage() {
               </div>
             </div>
           </MotionReveal>
+        </div>
+      </section>
+
+      {/* 3D Stacking Cards Process Section (ReelOnGo signature scroll peeling stack) */}
+      <section className="bg-linen2 py-28 relative overflow-hidden border-t border-bark/10">
+        <div className="mx-auto max-w-content px-6 md:px-8 text-center mb-10">
+          <MotionReveal>
+            <span className="text-[13px] font-semibold tracking-[0.18em] text-rose-deep uppercase">
+              HOW INSTANTREELS WORKS · 3D STACK
+            </span>
+            <h2 className="mt-4 font-serif text-[32px] font-medium text-bark md:text-[50px] leading-tight">
+              From Booking to <span className="italic text-rose-deep">Finished Film.</span>
+            </h2>
+            <p className="mt-3 max-w-xl mx-auto text-sm sm:text-base text-sand">
+              Scroll or click through our 5-step cinematic production pipeline with 3D stacked cards.
+            </p>
+          </MotionReveal>
+        </div>
+
+        <div className="mx-auto max-w-content px-6 md:px-8">
+          <ProcessStack3D />
         </div>
       </section>
 
