@@ -22,10 +22,13 @@ export const metadata = {
     "Cinematic reels for your special days, crafted with emotion and elegance.",
 };
 
+import ScrollProgress from "@/components/ScrollProgress";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${manrope.variable}`}>
-      <body className="font-sans bg-linen text-bark antialiased">
+      <body className="font-sans bg-linen text-bark antialiased selection:bg-rose-deep selection:text-linen">
+        <ScrollProgress />
         {children}
       </body>
     </html>
