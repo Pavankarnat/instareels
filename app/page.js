@@ -71,6 +71,7 @@ const FEATURED_WORK = [
 
 export default function HomePage() {
   const [showreelOpen, setShowreelOpen] = useState(false);
+  const [selectedReel, setSelectedReel] = useState(null);
 
   return (
     <>
@@ -232,7 +233,12 @@ export default function HomePage() {
           </MotionReveal>
         </div>
 
-        <ReelFanDeck onSelectReel={() => setShowreelOpen(true)} />
+        <ReelFanDeck
+          onSelectReel={(reel) => {
+            setSelectedReel(reel);
+            setShowreelOpen(true);
+          }}
+        />
       </section>
 
       {/* Story Section with Interactive 3D Flatlay */}
@@ -286,24 +292,8 @@ export default function HomePage() {
       </section>
 
       {/* 3D Stacking Cards Process Section (ReelOnGo signature scroll peeling stack) */}
-      <section className="bg-linen2 py-28 relative overflow-hidden border-t border-bark/10">
-        <div className="mx-auto max-w-content px-6 md:px-8 text-center mb-10">
-          <MotionReveal>
-            <span className="text-[13px] font-semibold tracking-[0.18em] text-rose-deep uppercase">
-              HOW INSTANTREELS WORKS · 3D STACK
-            </span>
-            <h2 className="mt-4 font-serif text-[32px] font-medium text-bark md:text-[50px] leading-tight">
-              From Booking to <span className="italic text-rose-deep">Finished Film.</span>
-            </h2>
-            <p className="mt-3 max-w-xl mx-auto text-sm sm:text-base text-sand">
-              Scroll or click through our 5-step cinematic production pipeline with 3D stacked cards.
-            </p>
-          </MotionReveal>
-        </div>
-
-        <div className="mx-auto max-w-content px-6 md:px-8">
-          <ProcessStack3D />
-        </div>
+      <section className="bg-linen2 relative border-t border-bark/10">
+        <ProcessStack3D />
       </section>
 
       {/* Services Preview with 3D Depth */}
@@ -428,7 +418,11 @@ export default function HomePage() {
       <Footer />
 
       {/* Interactive Showreel Modal */}
-      <ShowreelModal isOpen={showreelOpen} onClose={() => setShowreelOpen(false)} />
+      <ShowreelModal
+        isOpen={showreelOpen}
+        onClose={() => setShowreelOpen(false)}
+        reel={selectedReel}
+      />
     </>
   );
 }
