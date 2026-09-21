@@ -125,6 +125,8 @@ export default function ReelFanDeck({ onSelectReel }) {
   const [isPlaying, setIsPlaying] = useState(true);
 
   const videoRef = useRef(null);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
 
   useEffect(() => {
     function handleResize() {
@@ -142,6 +144,25 @@ export default function ReelFanDeck({ onSelectReel }) {
   function prev() {
     setActiveIndex((prev) => (prev - 1 + REELS.length) % REELS.length);
   }
+
+  // Mobile horizontal touch swipe gestures
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e) => {
+    const diffX = touchStartX.current - e.changedTouches[0].clientX;
+    const diffY = touchStartY.current - e.changedTouches[0].clientY;
+    // Dominant horizontal swipe with 35px threshold
+    if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX > 0) {
+        next();
+      } else {
+        prev();
+      }
+    }
+  };
 
   // Active video play controller
   useEffect(() => {
@@ -189,10 +210,12 @@ export default function ReelFanDeck({ onSelectReel }) {
       {/* Ambient Backlight Glow behind Active Center Card */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] rounded-full bg-rose/20 blur-[90px] opacity-70 transition-all duration-700 -z-10" />
 
-      {/* 5-Card 3D Fan Stage with smooth multi-axis sliding */}
+      {/* 5-Card 3D Fan Stage with smooth multi-axis sliding & touch swipe */}
       <div
         style={{ transformStyle: "preserve-3d" }}
-        className="relative flex items-center justify-center w-full max-w-6xl h-[480px] sm:h-[560px] md:h-[640px]"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        className="relative flex items-center justify-center w-full max-w-6xl h-[440px] sm:h-[540px] md:h-[640px] touch-pan-y"
       >
         {REELS.map((reel, index) => {
           // Continuous circular offset: -3 to +3
@@ -214,18 +237,19 @@ export default function ReelFanDeck({ onSelectReel }) {
             z: -80,
           };
 
-          // Mobile responsive layout
-          const mobileX = offset * 92;
-          const mobileRotZ = offset * 5;
-          const mobileRotY = offset * -8;
-          const mobileScale = isCenter ? 1.03 : 0.82;
+          // Mobile responsive layout (clean spacing, zero overflow)
+          const mobileX = offset === 0 ? 0 : offset > 0 ? (offset === 1 ? 96 : 175) : (offset === -1 ? -96 : -175);
+          const mobileRotZ = offset * 6;
+          const mobileRotY = offset * -10;
+          const mobileScale = isCenter ? 1.02 : Math.abs(offset) === 1 ? 0.85 : 0.72;
+          const mobileOpacity = isCenter ? 1 : Math.abs(offset) === 1 ? 0.88 : 0.35;
 
           const baseX = isMobile ? mobileX : config.x;
           const baseRotZ = isMobile ? mobileRotZ : config.rotZ;
           const baseRotY = isMobile ? mobileRotY : config.rotY;
-          const baseY = isMobile ? Math.abs(offset) * 12 : config.y;
+          const baseY = isMobile ? Math.abs(offset) * 10 : config.y;
           const baseScale = isMobile ? mobileScale : config.scale;
-          const baseZ = isMobile ? (isCenter ? 30 : -20) : config.z;
+          const baseZ = isMobile ? (isCenter ? 25 : -15) : config.z;
 
           return (
             <motion.div
@@ -240,8 +264,8 @@ export default function ReelFanDeck({ onSelectReel }) {
                 scale: isVisible ? baseScale : 0.6,
                 zIndex: isCenter ? 40 : config.zIndex,
                 opacity: isVisible
-                  ? isMobile && Math.abs(offset) > 1
-                    ? 0.2
+                  ? isMobile
+                    ? mobileOpacity
                     : config.opacity
                   : 0,
               }}
@@ -266,8 +290,8 @@ export default function ReelFanDeck({ onSelectReel }) {
                   : "shadow-[0_15px_35px_rgba(0,0,0,0.25)]"
               }`}
               style={{
-                width: isMobile ? 220 : 285,
-                height: isMobile ? 385 : 495,
+                width: isMobile ? 210 : 285,
+                height: isMobile ? 365 : 495,
                 transformStyle: "preserve-3d",
                 pointerEvents: isVisible ? "auto" : "none",
               }}

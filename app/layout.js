@@ -16,6 +16,13 @@ const manrope = Manrope({
   display: "swap",
 });
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#1a1412",
+};
+
 export const metadata = {
   title: "Instantreels — Cinematic wedding & event films",
   description:

@@ -71,7 +71,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="bg-linen py-28">
+      <section className="bg-linen py-16 sm:py-24 md:py-28">
         <div className="mx-auto grid max-w-content grid-cols-1 gap-14 px-6 md:grid-cols-[0.85fr_1.15fr] md:gap-16 md:px-8">
           {/* Info column */}
           <MotionReveal>
@@ -118,8 +118,8 @@ export default function ContactPage() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-[12.5px] uppercase tracking-wider text-sand font-semibold">Studio</div>
-                  <div className="mt-0.5 text-[15px] font-medium text-bark">4th Cross, Indiranagar, Bengaluru</div>
+                  <div className="text-[12.5px] uppercase tracking-wider text-sand font-semibold">Coverage</div>
+                  <div className="mt-0.5 text-[15px] font-medium text-bark">Available On-Demand Worldwide</div>
                 </div>
               </div>
             </div>
@@ -133,13 +133,13 @@ export default function ContactPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 text-xs font-semibold tracking-wider text-linen uppercase">
-                Bengaluru Creative Suite
+                Creative Studio Suite
               </div>
             </div>
           </MotionReveal>
 
           {/* Form column */}
-          <MotionReveal delay={0.2} className="rounded-xl border border-bark/10 bg-linen2 p-8 md:p-12 shadow-xl">
+          <MotionReveal delay={0.2} className="rounded-xl border border-bark/10 bg-linen2 p-5 sm:p-8 md:p-12 shadow-xl">
             {submitted ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}

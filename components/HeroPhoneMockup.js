@@ -103,7 +103,7 @@ export default function HeroPhoneMockup({
         }}
         initial={{ opacity: 1 }}
         animate={{ opacity: 1 }}
-        className="relative w-[275px] sm:w-[295px] md:w-[310px] aspect-[9/18.8] rounded-[48px] p-[10px] bg-gradient-to-b from-[#382d27] via-[#201815] to-[#120d0b] shadow-[0_30px_70px_-15px_rgba(28,19,16,0.55),0_10px_25px_-5px_rgba(0,0,0,0.4)] border border-[#524138]/60"
+        className="relative w-[255px] xs:w-[275px] sm:w-[295px] md:w-[310px] aspect-[9/18.8] rounded-[48px] p-[10px] bg-gradient-to-b from-[#382d27] via-[#201815] to-[#120d0b] shadow-[0_30px_70px_-15px_rgba(28,19,16,0.55),0_10px_25px_-5px_rgba(0,0,0,0.4)] border border-[#524138]/60"
       >
         {/* Outer Phone Bezel Accent Rim */}
         <div className="absolute inset-0 rounded-[48px] border border-white/10 pointer-events-none" />
@@ -178,21 +178,21 @@ export default function HeroPhoneMockup({
             </div>
 
             {/* Quick Play & Sound Controls Inside Screen */}
-            <div className="absolute top-14 right-3.5 z-30 flex flex-col gap-2">
+            <div className="absolute top-14 right-3 z-30 flex flex-col gap-2">
               <button
                 type="button"
                 onClick={toggleMute}
                 aria-label={isMuted ? "Unmute video" : "Mute video"}
-                className="flex h-7 w-7 items-center justify-center rounded-full bg-black/50 border border-white/20 text-white backdrop-blur-md transition-all hover:scale-110 active:scale-95 hover:bg-rose-deep"
+                className="flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-black/60 border border-white/25 text-white backdrop-blur-md transition-all hover:scale-110 active:scale-95 hover:bg-rose-deep"
               >
                 {isMuted ? (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
                     <line x1="23" y1="9" x2="17" y2="15" />
                     <line x1="17" y1="9" x2="23" y2="15" />
                   </svg>
                 ) : (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
                     <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                   </svg>
@@ -203,15 +203,15 @@ export default function HeroPhoneMockup({
                 type="button"
                 onClick={togglePlay}
                 aria-label={isPlaying ? "Pause video" : "Play video"}
-                className="flex h-7 w-7 items-center justify-center rounded-full bg-black/50 border border-white/20 text-white backdrop-blur-md transition-all hover:scale-110 active:scale-95 hover:bg-rose-deep"
+                className="flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-black/60 border border-white/25 text-white backdrop-blur-md transition-all hover:scale-110 active:scale-95 hover:bg-rose-deep"
               >
                 {isPlaying ? (
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
                     <rect x="6" y="4" width="4" height="16" />
                     <rect x="14" y="4" width="4" height="16" />
                   </svg>
                 ) : (
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="ml-0.5">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="ml-0.5">
                     <path d="M8 5v14l11-7z" />
                   </svg>
                 )}
@@ -268,18 +268,18 @@ export default function HeroPhoneMockup({
           }}
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
-          className="absolute -top-2 -right-2 sm:-right-4 md:-right-6 z-40 rounded-2xl bg-white/95 text-bark px-3 sm:px-3.5 py-2 sm:py-2.5 shadow-[0_16px_36px_-6px_rgba(28,19,16,0.22),0_4px_12px_rgba(0,0,0,0.06)] border border-bark/10 backdrop-blur-md whitespace-nowrap"
+          className="absolute -top-3 -right-1 xs:-right-2 sm:-right-4 md:-right-6 z-40 rounded-xl sm:rounded-2xl bg-white/95 text-bark px-2.5 sm:px-3.5 py-1.5 sm:py-2.5 shadow-[0_16px_36px_-6px_rgba(28,19,16,0.22),0_4px_12px_rgba(0,0,0,0.06)] border border-bark/10 backdrop-blur-md whitespace-nowrap scale-90 sm:scale-100 origin-top-right"
         >
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            <span className="text-[10px] font-bold tracking-wider text-sand uppercase">
+            <span className="text-[9px] sm:text-[10px] font-bold tracking-wider text-sand uppercase">
               CREATOR MATCHED
             </span>
           </div>
-          <div className="mt-0.5 text-xs sm:text-[13px] font-bold text-bark tracking-tight">
+          <div className="mt-0.5 text-[11px] sm:text-[13px] font-bold text-bark tracking-tight">
             {creatorName}
           </div>
         </motion.div>
@@ -295,16 +295,16 @@ export default function HeroPhoneMockup({
           }}
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
-          className="absolute -bottom-3 -left-2 sm:-left-4 md:-left-6 z-40 rounded-2xl bg-white/95 text-bark px-3 sm:px-3.5 py-2 sm:py-2.5 shadow-[0_16px_36px_-6px_rgba(28,19,16,0.22),0_4px_12px_rgba(0,0,0,0.06)] border border-bark/10 backdrop-blur-md whitespace-nowrap"
+          className="absolute -bottom-3 -left-1 xs:-left-2 sm:-left-4 md:-left-6 z-40 rounded-xl sm:rounded-2xl bg-white/95 text-bark px-2.5 sm:px-3.5 py-1.5 sm:py-2.5 shadow-[0_16px_36px_-6px_rgba(28,19,16,0.22),0_4px_12px_rgba(0,0,0,0.06)] border border-bark/10 backdrop-blur-md whitespace-nowrap scale-90 sm:scale-100 origin-bottom-left"
         >
-          <div className="text-[10px] font-bold tracking-wider text-sand uppercase">
+          <div className="text-[9px] sm:text-[10px] font-bold tracking-wider text-sand uppercase">
             DELIVERY SPEED
           </div>
-          <div className="mt-1 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold text-bark tracking-tight">
+          <div className="mt-0.5 sm:mt-1 flex items-center gap-1 sm:gap-1.5 text-[11px] sm:text-[13px] font-bold text-bark tracking-tight">
             <span className="text-bark">Shot</span>
-            <span className="text-rose font-mono text-xs">→</span>
+            <span className="text-rose font-mono text-[10px] sm:text-xs">→</span>
             <span className="text-bark">Edited</span>
-            <span className="text-rose font-mono text-xs">→</span>
+            <span className="text-rose font-mono text-[10px] sm:text-xs">→</span>
             <span className="text-rose-deep font-extrabold">Posted</span>
           </div>
         </motion.div>

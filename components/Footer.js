@@ -48,10 +48,12 @@ export default function Footer() {
   return (
     <footer className="bg-ink2 pb-8 pt-16 text-linen">
       <div className="mx-auto max-w-content px-6 md:px-8">
-        <div className="grid grid-cols-1 gap-10 border-b border-white/10 pb-12 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 border-b border-white/10 pb-10 sm:pb-12 md:grid-cols-3">
           <div>
-            <div className="mb-4 font-serif text-2xl font-semibold">
-              instant<span className="italic text-rose">reels</span>
+            <div className="mb-4 font-serif text-2xl font-semibold flex items-center gap-1">
+              <span>instant</span>
+              <span className="text-rose text-lg font-sans">⚡</span>
+              <span className="italic text-rose">reels</span>
             </div>
             <p className="max-w-[280px] text-sm leading-relaxed text-linen/60">
               Turning fleeting moments into films you&rsquo;ll want to watch for
@@ -60,20 +62,20 @@ export default function Footer() {
           </div>
 
           <div>
-            <div className="mb-5 text-[13px] font-semibold tracking-wider">
+            <div className="mb-4 sm:mb-5 text-[12px] sm:text-[13px] font-bold tracking-wider uppercase text-linen/90">
               QUICK LINKS
             </div>
-            <div className="flex flex-col gap-3 text-sm">
-              <Link href="/" className="text-linen/70 transition-colors hover:text-rose">Home</Link>
-              <Link href="/services" className="text-linen/70 transition-colors hover:text-rose">Services</Link>
-              <Link href="/portfolio" className="text-linen/70 transition-colors hover:text-rose">Portfolio</Link>
-              <Link href="/about" className="text-linen/70 transition-colors hover:text-rose">About</Link>
-              <Link href="/contact" className="text-linen/70 transition-colors hover:text-rose">Contact</Link>
+            <div className="flex flex-col gap-2.5 text-[15px] sm:text-sm">
+              <Link href="/" className="text-linen/70 transition-colors hover:text-rose py-1">Home</Link>
+              <Link href="/services" className="text-linen/70 transition-colors hover:text-rose py-1">Services</Link>
+              <Link href="/portfolio" className="text-linen/70 transition-colors hover:text-rose py-1">Portfolio</Link>
+              <Link href="/about" className="text-linen/70 transition-colors hover:text-rose py-1">About</Link>
+              <Link href="/contact" className="text-linen/70 transition-colors hover:text-rose py-1">Contact</Link>
             </div>
           </div>
 
           <div>
-            <div className="mb-5 text-[13px] font-semibold tracking-wider">
+            <div className="mb-4 sm:mb-5 text-[12px] sm:text-[13px] font-bold tracking-wider uppercase text-linen/90">
               FOLLOW US
             </div>
             <div className="flex gap-3">
@@ -82,9 +84,9 @@ export default function Footer() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-linen transition-colors hover:border-rose hover:text-rose"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-linen transition-colors hover:border-rose hover:text-rose active:scale-95"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
                     {s.path}
                   </svg>
                 </a>

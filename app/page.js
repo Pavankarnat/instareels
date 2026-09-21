@@ -96,7 +96,7 @@ export default function HomePage() {
               </div>
 
               {/* Big Bold Headline */}
-              <h1 className="font-serif text-[42px] sm:text-[56px] lg:text-[68px] font-semibold leading-[1.04] tracking-tight text-bark">
+              <h1 className="font-serif text-[34px] xs:text-[42px] sm:text-[56px] lg:text-[68px] font-semibold leading-[1.06] sm:leading-[1.04] tracking-tight text-bark">
                 Your event.
                 <span className="block mt-1 bg-gradient-to-r from-rose-deep via-rose to-[#d97736] bg-clip-text text-transparent italic">
                   In a flash. ⚡
@@ -104,16 +104,16 @@ export default function HomePage() {
               </h1>
 
               {/* Subtitle */}
-              <p className="mt-6 text-base sm:text-lg leading-relaxed text-sand max-w-xl">
+              <p className="mt-4 sm:mt-6 text-[15px] sm:text-lg leading-relaxed text-sand max-w-xl">
                 Book a dedicated creator for your wedding, birthday, café, brand launch
                 or any moment worth remembering. Shot beautifully on 4K cinema gear. Edited fast. Ready to post.
               </p>
 
               {/* CTA Buttons */}
-              <div className="mt-9 flex flex-wrap items-center gap-4 sm:gap-6">
+              <div className="mt-7 sm:mt-9 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-5">
                 <Link
                   href="/contact"
-                  className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-8 py-4 text-sm font-semibold text-linen shadow-xl transition-all duration-300 hover:bg-rose-deep hover:shadow-[0_10px_25px_rgba(143,70,54,0.35)] hover:scale-105 active:scale-95"
+                  className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-ink px-7 py-3.5 sm:px-8 sm:py-4 text-sm font-semibold text-linen shadow-xl transition-all duration-300 hover:bg-rose-deep hover:shadow-[0_10px_25px_rgba(143,70,54,0.35)] hover:scale-105 active:scale-95 text-center"
                 >
                   <span>Book Insta Reel</span>
                   <span className="font-mono text-xs transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">
@@ -121,26 +121,28 @@ export default function HomePage() {
                   </span>
                 </Link>
 
-                <a
-                  href="#reel-showcase"
-                  className="inline-flex items-center gap-2 rounded-full border border-bark/20 bg-white/80 px-7 py-4 text-sm font-semibold text-bark backdrop-blur-sm shadow-sm transition-all duration-300 hover:border-rose hover:bg-white hover:text-rose-deep active:scale-95"
-                >
-                  <span>See our work</span>
-                  <span className="text-xs">↓</span>
-                </a>
+                <div className="flex items-center justify-between sm:justify-start gap-3">
+                  <a
+                    href="#reel-showcase"
+                    className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-2 rounded-full border border-bark/20 bg-white/80 px-5 py-3 sm:px-7 sm:py-4 text-sm font-semibold text-bark backdrop-blur-sm shadow-sm transition-all duration-300 hover:border-rose hover:bg-white hover:text-rose-deep active:scale-95"
+                  >
+                    <span>See work</span>
+                    <span className="text-xs">↓</span>
+                  </a>
 
-                <button
-                  type="button"
-                  onClick={() => setShowreelOpen(true)}
-                  className="inline-flex items-center gap-2.5 text-sm font-medium text-bark/80 hover:text-rose-deep transition-colors cursor-pointer py-2 px-1"
-                >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-linen2/80 text-rose-deep border border-bark/10 transition-transform hover:scale-110">
-                    <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" className="ml-0.5">
-                      <path d="M2 1l9 5-9 5z" />
-                    </svg>
-                  </span>
-                  <span className="text-xs tracking-wider uppercase font-semibold">Watch Showreel</span>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowreelOpen(true)}
+                    className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-2 text-sm font-medium text-bark/80 hover:text-rose-deep transition-colors cursor-pointer py-3 px-3"
+                  >
+                    <span className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-linen2/80 text-rose-deep border border-bark/10 transition-transform hover:scale-110 flex-shrink-0">
+                      <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" className="ml-0.5">
+                        <path d="M2 1l9 5-9 5z" />
+                      </svg>
+                    </span>
+                    <span className="text-xs tracking-wider uppercase font-semibold whitespace-nowrap">Showreel</span>
+                  </button>
+                </div>
               </div>
 
               {/* Social Proof Avatar Stack (No location string) */}
@@ -187,7 +189,7 @@ export default function HomePage() {
       </section>
 
       {/* Feature strip with 3D Glass Cards */}
-      <section className="bg-linen py-24 relative z-10">
+      <section className="bg-linen py-16 sm:py-24 relative z-10">
         <div className="mx-auto max-w-content px-6 md:px-8">
           <StaggerContainer className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
             {FEATURES.map((f) => (
@@ -212,7 +214,7 @@ export default function HomePage() {
       </section>
 
       {/* 3D Fan Deck Section (Signature 3D animation) */}
-      <section id="reel-showcase" className="bg-[#fbf7f0] py-28 relative overflow-hidden border-y border-bark/10">
+      <section id="reel-showcase" className="bg-[#fbf7f0] py-16 sm:py-24 md:py-28 relative overflow-hidden border-y border-bark/10">
         <div className="mx-auto max-w-content px-6 md:px-8 text-center mb-10">
           <MotionReveal>
             <span className="text-[13px] font-semibold tracking-[0.18em] text-rose-deep uppercase">
@@ -236,7 +238,7 @@ export default function HomePage() {
       </section>
 
       {/* Story Section with Interactive 3D Flatlay */}
-      <section className="bg-linen py-28">
+      <section className="bg-linen py-16 sm:py-24 md:py-28">
         <div className="mx-auto grid max-w-content grid-cols-1 items-center gap-14 px-6 md:grid-cols-2 md:gap-20 md:px-8">
           <MotionReveal delay={0.1} className="flex gap-5 items-center">
             <span
@@ -291,7 +293,7 @@ export default function HomePage() {
       </section>
 
       {/* Services Preview with 3D Depth */}
-      <section className="bg-merlot py-28 text-linen relative overflow-hidden">
+      <section className="bg-merlot py-16 sm:py-24 md:py-28 text-linen relative overflow-hidden">
         <div className="mx-auto mb-16 flex max-w-content flex-col justify-between gap-6 px-6 md:flex-row md:items-end md:px-8">
           <MotionReveal>
             <span className="text-[13px] font-semibold tracking-[0.16em] text-rose uppercase">OUR SERVICES</span>
@@ -341,7 +343,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured Work Gallery with 3D interactive preview */}
-      <section className="bg-linen py-28">
+      <section className="bg-linen py-16 sm:py-24 md:py-28">
         <div className="mx-auto mb-16 flex max-w-content flex-col justify-between gap-6 px-6 md:flex-row md:items-end md:px-8">
           <MotionReveal>
             <span className="text-[13px] font-semibold tracking-[0.16em] text-rose-deep uppercase">FEATURED WORK</span>
@@ -389,7 +391,7 @@ export default function HomePage() {
       </section>
 
       {/* Quote Section with Atmospheric Parallax */}
-      <section className="relative py-36 overflow-hidden">
+      <section className="relative py-20 sm:py-28 md:py-36 overflow-hidden">
         <Photo seed="ir-quote" aspect="aspect-auto" alt="" className="absolute inset-0" sizes="100vw" enableTilt={false} />
         <div className="absolute inset-0 bg-ink/65 backdrop-blur-[2px]" />
 

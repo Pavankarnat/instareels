@@ -140,7 +140,7 @@ export default function ServicesPage() {
 
       {/* Services List with 3D Photo Tilt and Stagger */}
       <section className="bg-linen py-16">
-        <div className="mx-auto flex max-w-content flex-col gap-28 px-6 md:px-8">
+        <div className="mx-auto flex max-w-content flex-col gap-16 sm:gap-24 md:gap-28 px-6 md:px-8">
           {SERVICES.map((s, i) => (
             <MotionReveal
               key={s.title}
