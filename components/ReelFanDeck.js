@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 const REELS = [
   {
@@ -77,46 +77,54 @@ const REELS = [
   },
 ];
 
-// Base fan curvature parameters (relative offset from center card: -3 to +3)
-const DESKTOP_CONFIG = [
-  { rot: -24, scale: 0.76, x: -330, y: 55, zIndex: 2, opacity: 0.75 },
-  { rot: -16, scale: 0.85, x: -225, y: 28, zIndex: 4, opacity: 0.9 },
-  { rot: -8, scale: 0.94, x: -112, y: 8, zIndex: 6, opacity: 1 },
-  { rot: 0, scale: 1.06, x: 0, y: -8, zIndex: 25, opacity: 1 },
-  { rot: 8, scale: 0.94, x: 112, y: 8, zIndex: 6, opacity: 1 },
-  { rot: 16, scale: 0.85, x: 225, y: 28, zIndex: 4, opacity: 0.9 },
-  { rot: 24, scale: 0.76, x: 330, y: 55, zIndex: 2, opacity: 0.75 },
-];
+// 5-Card 3D Arched Carousel configurations with clean separation and distinct depth
+const CONFIG_5 = {
+  "-2": { rotZ: -14, rotY: 20,  scale: 0.80, x: -390, y: 32, zIndex: 10, opacity: 0.75, z: -50 },
+  "-1": { rotZ: -7,  rotY: 10,  scale: 0.92, x: -205, y: 12, zIndex: 25, opacity: 0.95, z: -10 },
+  "0":  { rotZ: 0,   rotY: 0,   scale: 1.06, x: 0,    y: -8,  zIndex: 40, opacity: 1,    z: 30 },
+  "1":  { rotZ: 7,   rotY: -10, scale: 0.92, x: 205,  y: 12, zIndex: 25, opacity: 0.95, z: -10 },
+  "2":  { rotZ: 14,  rotY: -20, scale: 0.80, x: 390,  y: 32, zIndex: 10, opacity: 0.75, z: -50 },
+};
+
+// Isolated Video Progress Bar to avoid re-rendering cards during video playback
+function VideoProgressBar({ videoRef }) {
+  const barRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleTime = () => {
+      if (video.duration && barRef.current) {
+        const pct = (video.currentTime / video.duration) * 100;
+        barRef.current.style.width = `${pct}%`;
+      }
+    };
+
+    video.addEventListener("timeupdate", handleTime);
+    return () => video.removeEventListener("timeupdate", handleTime);
+  }, [videoRef]);
+
+  return (
+    <div className="pointer-events-none absolute bottom-[104px] left-5 right-5 z-20">
+      <div className="h-1 w-full rounded-full bg-white/25 overflow-hidden backdrop-blur-sm">
+        <div
+          ref={barRef}
+          className="h-full bg-rose rounded-full transition-[width] duration-150 ease-linear shadow-[0_0_8px_rgba(217,138,122,0.8)]"
+          style={{ width: "0%" }}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function ReelFanDeck({ onSelectReel }) {
   const [activeIndex, setActiveIndex] = useState(3);
   const [isMobile, setIsMobile] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [videoProgress, setVideoProgress] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const containerRef = useRef(null);
   const videoRef = useRef(null);
-
-  // Framer Motion continuous mouse tracking values
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Luxury spring physics damping for smooth cursor follow
-  const springConfig = { damping: 25, stiffness: 180, mass: 0.5 };
-  const smoothMouseX = useSpring(mouseX, springConfig);
-  const smoothMouseY = useSpring(mouseY, springConfig);
-
-  // Derived transforms from mouse coordinates
-  const stageRotateY = useTransform(smoothMouseX, [-1, 1], [-14, 14]);
-  const stageRotateX = useTransform(smoothMouseY, [-1, 1], [10, -10]);
-  const stageX = useTransform(smoothMouseX, [-1, 1], [-25, 25]);
-  const stageY = useTransform(smoothMouseY, [-1, 1], [-12, 12]);
-
-  // Specular light position
-  const lightX = useTransform(smoothMouseX, [-1, 1], ["20%", "80%"]);
-  const lightY = useTransform(smoothMouseY, [-1, 1], ["20%", "80%"]);
 
   useEffect(() => {
     function handleResize() {
@@ -127,54 +135,32 @@ export default function ReelFanDeck({ onSelectReel }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Update mouse position normalized between -1 and 1
-  const handleMouseMove = useCallback((e) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-    mouseX.set(Math.max(-1, Math.min(1, x)));
-    mouseY.set(Math.max(-1, Math.min(1, y)));
-  }, [mouseX, mouseY]);
-
-  const handleMouseLeave = useCallback(() => {
-    mouseX.set(0);
-    mouseY.set(0);
-    setHoveredIndex(null);
-  }, [mouseX, mouseY]);
-
-  // Auto-advance only once the current video finishes playing
-  const handleVideoEnded = useCallback(() => {
-    setActiveIndex((prevIdx) => (prevIdx + 1) % REELS.length);
-  }, []);
-
   function next() {
-    setActiveIndex((prevIdx) => (prevIdx + 1) % REELS.length);
+    setActiveIndex((prev) => (prev + 1) % REELS.length);
   }
 
   function prev() {
-    setActiveIndex((prevIdx) => (prevIdx - 1 + REELS.length) % REELS.length);
+    setActiveIndex((prev) => (prev - 1 + REELS.length) % REELS.length);
   }
 
-  // Handle active video playback
+  // Active video play controller
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      const playPromise = videoRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => setIsPlaying(true))
-          .catch(() => {
-            // Autoplay with sound might be blocked, ensure muted
-            if (videoRef.current) {
-              videoRef.current.muted = true;
-              setIsMuted(true);
-              videoRef.current.play();
-            }
-          });
-      }
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = isMuted;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => setIsPlaying(true))
+        .catch(() => {
+          if (videoRef.current) {
+            videoRef.current.muted = true;
+            setIsMuted(true);
+            videoRef.current.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+          }
+        });
     }
-  }, [activeIndex]);
+  }, [activeIndex, isMuted]);
 
   const togglePlay = (e) => {
     e.stopPropagation();
@@ -195,140 +181,132 @@ export default function ReelFanDeck({ onSelectReel }) {
     setIsMuted(videoRef.current.muted);
   };
 
-  const handleTimeUpdate = () => {
-    if (!videoRef.current || !videoRef.current.duration) return;
-    const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
-    setVideoProgress(progress);
-  };
-
-  const activeReel = REELS[activeIndex];
-
   return (
     <div
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative flex flex-col items-center w-full py-6 select-none overflow-hidden"
+      className="relative flex flex-col items-center w-full py-6 select-none overflow-hidden max-w-full"
       style={{ perspective: 1200 }}
     >
-      {/* Dynamic Ambient Backlight Glow behind Active Center Card */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] rounded-full bg-rose/25 blur-[100px] opacity-70 transition-all duration-700 -z-10" />
+      {/* Ambient Backlight Glow behind Active Center Card */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] rounded-full bg-rose/20 blur-[90px] opacity-70 transition-all duration-700 -z-10" />
 
-      {/* 3D Fan Stage with Cursor Parallax Rotation */}
-      <motion.div
-        style={{
-          rotateY: stageRotateY,
-          rotateX: stageRotateX,
-          x: stageX,
-          y: stageY,
-          transformStyle: "preserve-3d",
-        }}
+      {/* 5-Card 3D Fan Stage with smooth multi-axis sliding */}
+      <div
+        style={{ transformStyle: "preserve-3d" }}
         className="relative flex items-center justify-center w-full max-w-6xl h-[480px] sm:h-[560px] md:h-[640px]"
       >
         {REELS.map((reel, index) => {
+          // Continuous circular offset: -3 to +3
           let offset = index - activeIndex;
-          if (offset < -3) offset += REELS.length;
-          if (offset > 3) offset -= REELS.length;
+          if (offset > REELS.length / 2) offset -= REELS.length;
+          if (offset < -REELS.length / 2) offset += REELS.length;
 
-          const isVisible = Math.abs(offset) <= 3;
-          if (!isVisible) return null;
-
-          const slotIndex = offset + 3; // 0 to 6
-          const config = DESKTOP_CONFIG[slotIndex];
-
+          // Only 5 cards visible (-2 to +2)
+          const isVisible = Math.abs(offset) <= 2;
           const isCenter = offset === 0;
-          const isHovered = hoveredIndex === index;
+          const config = CONFIG_5[String(offset)] || {
+            rotZ: 0,
+            rotY: 0,
+            scale: 0.6,
+            x: offset > 0 ? 520 : -520,
+            y: 50,
+            zIndex: 1,
+            opacity: 0,
+            z: -80,
+          };
 
-          // Responsive calculation
-          const mobileX = offset * 95;
-          const mobileRot = offset * 7;
-          const mobileScale = offset === 0 ? 1.02 : 0.85;
+          // Mobile responsive layout
+          const mobileX = offset * 92;
+          const mobileRotZ = offset * 5;
+          const mobileRotY = offset * -8;
+          const mobileScale = isCenter ? 1.03 : 0.82;
 
           const baseX = isMobile ? mobileX : config.x;
-          const baseRot = isMobile ? mobileRot : config.rot;
-          const baseY = isMobile ? Math.abs(offset) * 14 : config.y;
+          const baseRotZ = isMobile ? mobileRotZ : config.rotZ;
+          const baseRotY = isMobile ? mobileRotY : config.rotY;
+          const baseY = isMobile ? Math.abs(offset) * 12 : config.y;
           const baseScale = isMobile ? mobileScale : config.scale;
-
-          // Dynamic offset adjustments when cursor hovers
-          const hoverLift = isHovered && !isCenter ? -15 : 0;
-          const hoverScaleMultiplier = isHovered ? 1.05 : 1;
+          const baseZ = isMobile ? (isCenter ? 30 : -20) : config.z;
 
           return (
             <motion.div
               key={reel.id}
-              layout
-              initial={{ opacity: 0, scale: 0.6 }}
+              initial={false}
               animate={{
-                x: baseX,
-                y: baseY + hoverLift,
-                rotateZ: baseRot,
-                scale: baseScale * hoverScaleMultiplier,
-                zIndex: isCenter ? 30 : isHovered ? 20 : config.zIndex,
-                opacity: isMobile && Math.abs(offset) > 1 ? 0.25 : config.opacity,
+                x: isVisible ? baseX : offset > 0 ? 520 : -520,
+                y: isVisible ? baseY : 50,
+                z: isVisible ? baseZ : -80,
+                rotateZ: isVisible ? baseRotZ : 0,
+                rotateY: isVisible ? baseRotY : 0,
+                scale: isVisible ? baseScale : 0.6,
+                zIndex: isCenter ? 40 : config.zIndex,
+                opacity: isVisible
+                  ? isMobile && Math.abs(offset) > 1
+                    ? 0.2
+                    : config.opacity
+                  : 0,
               }}
               transition={{
                 type: "spring",
-                stiffness: 260,
-                damping: 24,
+                stiffness: 280,
+                damping: 28,
                 mass: 0.8,
               }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
               onClick={(e) => {
-                e.stopPropagation();
-                if (isCenter && onSelectReel) {
-                  onSelectReel(reel);
-                } else {
+                if (!isCenter) {
+                  e.stopPropagation();
                   setActiveIndex(index);
                 }
               }}
-              className={`absolute cursor-pointer rounded-2xl overflow-hidden shadow-2xl transition-shadow duration-500 ${
+              // PURE CSS HOVER: zero React re-renders on cursor hover, preventing any video buffering!
+              className={`group absolute rounded-2xl overflow-hidden shadow-2xl transition-shadow duration-300 ${
+                !isCenter ? "cursor-pointer hover:ring-2 hover:ring-rose/70" : ""
+              } ${
                 isCenter
-                  ? "ring-2 ring-rose/80 shadow-[0_35px_80px_rgba(36,26,21,0.45)]"
-                  : "hover:ring-1 hover:ring-rose/40 hover:brightness-110 shadow-[0_15px_40px_rgba(0,0,0,0.3)]"
+                  ? "ring-2 ring-rose/90 shadow-[0_30px_80px_rgba(36,26,21,0.45)]"
+                  : "shadow-[0_15px_35px_rgba(0,0,0,0.25)]"
               }`}
               style={{
                 width: isMobile ? 220 : 285,
                 height: isMobile ? 385 : 495,
                 transformStyle: "preserve-3d",
+                pointerEvents: isVisible ? "auto" : "none",
               }}
             >
-              {/* Phone / Reel Container */}
-              <div className="relative h-full w-full bg-ink overflow-hidden group">
-                {/* Active Card Plays Real Video */}
+              {/* Card Surface */}
+              <div className="relative h-full w-full bg-ink overflow-hidden">
                 {isCenter ? (
                   <div className="relative h-full w-full">
                     <video
                       ref={videoRef}
+                      key={reel.video}
                       src={reel.video}
                       poster={reel.image}
+                      autoPlay
                       playsInline
+                      loop
                       muted={isMuted}
-                      onTimeUpdate={handleTimeUpdate}
-                      onEnded={handleVideoEnded}
+                      preload="auto"
+                      onPlay={() => setIsPlaying(true)}
+                      onPause={() => setIsPlaying(false)}
                       className="h-full w-full object-cover"
                     />
 
-                    {/* Cursor Interactive Specular Glare */}
-                    <motion.div
-                      style={{
-                        background: `radial-gradient(circle at ${lightX} ${lightY}, rgba(255,255,255,0.18) 0%, transparent 65%)`,
-                      }}
-                      className="pointer-events-none absolute inset-0 z-20 mix-blend-overlay"
-                    />
+                    {/* Specular Sheen */}
+                    <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-tr from-transparent via-white/10 to-transparent mix-blend-overlay" />
+
+                    {/* Isolated Video Progress Bar */}
+                    <VideoProgressBar videoRef={videoRef} />
                   </div>
                 ) : (
-                  /* Side Cards show Poster Image with Zoom on Hover */
                   <div className="relative h-full w-full">
                     <Image
                       src={reel.image}
                       alt={reel.title}
                       fill
                       sizes="300px"
-                      className="object-cover transition-transform duration-700 group-hover:scale-108"
+                      className="object-cover transition-transform duration-500 group-hover:scale-106"
                     />
-                    {/* Dark gradient for non-active depth */}
-                    <div className="absolute inset-0 bg-black/40 transition-opacity group-hover:bg-black/20" />
+                    <div className="absolute inset-0 bg-black/40 transition-opacity group-hover:bg-black/15" />
                   </div>
                 )}
 
@@ -342,7 +320,7 @@ export default function ReelFanDeck({ onSelectReel }) {
                       {reel.tag}
                     </span>
                     {isCenter && (
-                      <span className="flex items-center gap-1 rounded-full bg-rose-deep/80 px-2 py-1 text-[10px] font-bold text-linen backdrop-blur-md border border-rose/30">
+                      <span className="flex items-center gap-1 rounded-full bg-rose-deep/90 px-2 py-1 text-[10px] font-bold text-linen backdrop-blur-md border border-rose/30">
                         <span className="h-1.5 w-1.5 rounded-full bg-white animate-ping" />
                         LIVE REEL
                       </span>
@@ -361,7 +339,6 @@ export default function ReelFanDeck({ onSelectReel }) {
                 {/* Video Play/Pause & Sound Controls on Active Card */}
                 {isCenter && (
                   <div className="absolute top-16 right-4 z-30 flex flex-col gap-2">
-                    {/* Audio Mute/Unmute Button with Animated Wave Bars */}
                     <button
                       type="button"
                       onClick={toggleMute}
@@ -383,7 +360,6 @@ export default function ReelFanDeck({ onSelectReel }) {
                       )}
                     </button>
 
-                    {/* Quick Play/Pause Button */}
                     <button
                       type="button"
                       onClick={togglePlay}
@@ -404,14 +380,14 @@ export default function ReelFanDeck({ onSelectReel }) {
                   </div>
                 )}
 
-                {/* Big Center Play Icon (Shown when paused or for opening modal) */}
+                {/* Big Center Play Icon (Shown when paused) */}
                 {isCenter && !isPlaying && (
                   <div
                     onClick={togglePlay}
                     className="absolute inset-0 flex items-center justify-center z-25 cursor-pointer bg-black/30 backdrop-blur-[1px]"
                   >
                     <motion.div
-                      whileHover={{ scale: 1.15 }}
+                      whileHover={{ scale: 1.12 }}
                       whileTap={{ scale: 0.95 }}
                       className="flex h-16 w-16 items-center justify-center rounded-full bg-rose-deep/95 text-linen shadow-2xl border border-linen/40 backdrop-blur-md"
                     >
@@ -422,20 +398,30 @@ export default function ReelFanDeck({ onSelectReel }) {
                   </div>
                 )}
 
-                {/* Real-Time Video Progress Bar for Active Card */}
-                {isCenter && (
-                  <div className="absolute bottom-[104px] left-5 right-5 z-20">
-                    <div className="h-1 w-full rounded-full bg-white/20 overflow-hidden backdrop-blur-sm">
-                      <div
-                        className="h-full bg-rose transition-all duration-150 ease-linear rounded-full shadow-[0_0_8px_rgba(217,138,122,0.8)]"
-                        style={{ width: `${videoProgress}%` }}
-                      />
-                    </div>
+                {/* Full-card click overlay for side cards to guarantee immediate, reliable response */}
+                {!isCenter && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveIndex(index);
+                    }}
+                    aria-label={`Select ${reel.title}`}
+                    className="absolute inset-0 z-35 w-full h-full bg-transparent border-0 cursor-pointer p-0 m-0"
+                  />
+                )}
+
+                {/* Hover Click Hint on Side Cards via Pure CSS */}
+                {!isCenter && (
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute inset-0 flex items-center justify-center z-25 pointer-events-none">
+                    <span className="rounded-full bg-black/80 px-4 py-2 text-xs font-semibold text-linen backdrop-blur-md border border-white/20 shadow-xl">
+                      Click to view reel
+                    </span>
                   </div>
                 )}
 
                 {/* Bottom Reel Info & Click Action */}
-                <div className="absolute bottom-5 left-5 right-5 z-20">
+                <div className="absolute bottom-5 left-5 right-5 z-20 pointer-events-none">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-[10px] uppercase tracking-widest text-rose font-bold">
                       {reel.badge}
@@ -448,10 +434,14 @@ export default function ReelFanDeck({ onSelectReel }) {
 
                   <div
                     onClick={(e) => {
-                      e.stopPropagation();
-                      if (onSelectReel) onSelectReel(reel);
+                      if (isCenter && onSelectReel) {
+                        e.stopPropagation();
+                        onSelectReel(reel);
+                      }
                     }}
-                    className="mt-3 flex items-center justify-between text-xs text-rose font-semibold group/btn hover:text-white transition-colors pt-2 border-t border-white/15"
+                    className={`mt-3 flex items-center justify-between text-xs text-rose font-semibold group/btn hover:text-white transition-colors pt-2 border-t border-white/15 ${
+                      isCenter ? "pointer-events-auto cursor-pointer" : "pointer-events-none"
+                    }`}
                   >
                     <span className="flex items-center gap-1.5">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -468,8 +458,7 @@ export default function ReelFanDeck({ onSelectReel }) {
             </motion.div>
           );
         })}
-      </motion.div>
-
+      </div>
 
       {/* Navigation Controls */}
       <div className="flex items-center gap-4 mt-4 z-30">
@@ -477,7 +466,7 @@ export default function ReelFanDeck({ onSelectReel }) {
           type="button"
           onClick={prev}
           aria-label="Previous reel"
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-bark/20 bg-linen/90 text-bark backdrop-blur-md shadow-md transition-all hover:bg-rose-deep hover:text-linen hover:border-rose-deep hover:scale-110 active:scale-95"
+          className="flex h-12 w-12 items-center justify-center rounded-full border border-bark/20 bg-white/90 text-bark backdrop-blur-md shadow-md transition-all hover:bg-rose-deep hover:text-linen hover:border-rose-deep hover:scale-110 active:scale-95"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M15 18l-6-6 6-6" />
@@ -505,7 +494,7 @@ export default function ReelFanDeck({ onSelectReel }) {
           type="button"
           onClick={next}
           aria-label="Next reel"
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-bark/20 bg-linen/90 text-bark backdrop-blur-md shadow-md transition-all hover:bg-rose-deep hover:text-linen hover:border-rose-deep hover:scale-110 active:scale-95"
+          className="flex h-12 w-12 items-center justify-center rounded-full border border-bark/20 bg-white/90 text-bark backdrop-blur-md shadow-md transition-all hover:bg-rose-deep hover:text-linen hover:border-rose-deep hover:scale-110 active:scale-95"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M9 18l6-6-6-6" />

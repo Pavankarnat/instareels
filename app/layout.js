@@ -27,7 +27,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${manrope.variable}`}>
-      <body className="font-sans bg-linen text-bark antialiased selection:bg-rose-deep selection:text-linen">
+      <body className="font-sans bg-linen text-bark antialiased selection:bg-rose-deep selection:text-linen overflow-x-hidden">
         <ScrollProgress />
         {children}
       </body>

@@ -19,8 +19,10 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-ink">
       <div className="mx-auto flex h-[84px] max-w-content items-center justify-between px-6 md:px-8">
-        <Link href="/" className="font-serif text-xl font-semibold text-linen">
-          instant<span className="italic text-rose">reels</span>
+        <Link href="/" className="font-serif text-xl font-semibold text-linen flex items-center gap-1">
+          <span>instant</span>
+          <span className="text-rose text-base font-sans">⚡</span>
+          <span className="italic text-rose">reels</span>
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-9 md:flex">

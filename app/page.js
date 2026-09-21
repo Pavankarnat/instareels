@@ -10,6 +10,7 @@ import CtaSection from "@/components/CtaSection";
 import ShowreelModal from "@/components/ShowreelModal";
 import ReelFanDeck from "@/components/ReelFanDeck";
 import ProcessStack3D from "@/components/ProcessStack3D";
+import HeroPhoneMockup from "@/components/HeroPhoneMockup";
 import { MotionReveal, StaggerContainer, StaggerItem } from "@/components/MotionWrapper";
 import { motion } from "framer-motion";
 
@@ -77,118 +78,111 @@ export default function HomePage() {
     <>
       <Navbar />
 
-      {/* Full-width Hero Banner with Layered Parallax */}
-      <section className="relative w-full overflow-hidden bg-ink text-linen min-h-[88vh] lg:min-h-[94vh] flex flex-col justify-between">
-        {/* Full-width background image with cinematic gradient */}
-        <div className="absolute inset-0 z-0">
-          <motion.div
-            initial={{ scale: 1.08, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-            className="relative h-full w-full"
-          >
-            <Image
-              src="/photos/hero-bride.jpg"
-              alt="Bride in golden light"
-              fill
-              priority
-              className="object-cover object-[72%_25%] md:object-[78%_center] lg:object-right"
-              sizes="100vw"
-            />
-          </motion.div>
-          {/* Multi-layer cinematic overlays */}
-          <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 via-50% to-transparent lg:via-ink/75 lg:via-42% lg:to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/40" />
-        </div>
+      {/* Hero Section with 3D Phone Mockup (Matching reference design & our UI) */}
+      <section className="relative w-full overflow-hidden bg-[#faf6f0] text-bark py-14 sm:py-20 lg:py-24 border-b border-bark/10">
+        {/* Subtle background ambient warmth */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-15%,rgba(217,138,122,0.2),rgba(255,255,255,0))]" />
 
-        {/* Hero Content with Staggered Entrance */}
-        <div className="relative z-10 mx-auto w-full max-w-content px-6 pt-24 pb-12 md:px-8 lg:pt-32 my-auto">
-          <div className="max-w-xl">
-            <motion.div
-              initial={{ opacity: 0, x: -25 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-7 flex items-center gap-4"
-            >
-              <span className="inline-block h-px w-8 bg-rose" />
-              <span className="text-[13px] font-semibold tracking-[0.16em] text-rose uppercase">
-                Frames Today, Stories Forever
-              </span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 30, rotateX: 10 }}
-              animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              style={{ perspective: 1000 }}
-              className="font-serif text-[40px] font-medium leading-[1.08] tracking-tight sm:text-[52px] md:text-[66px]"
-            >
-              Turn your moments into{" "}
-              <span className="italic text-rose block sm:inline">beautiful reels.</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.55 }}
-              className="mt-6 max-w-md text-base leading-relaxed text-linen/75 md:text-lg"
-            >
-              Cinematic reels for your special days, crafted with emotion and
-              elegance — so every moment stays as alive as the day it happened.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="mt-10 flex flex-wrap items-center gap-7"
-            >
-              <Link
-                href="/contact"
-                className="group relative inline-flex items-center gap-2.5 overflow-hidden bg-rose-deep px-8 py-4 text-sm font-semibold text-linen shadow-2xl transition-all duration-300 hover:bg-rose-deep-hover hover:shadow-[0_0_30px_rgba(143,70,54,0.5)] hover:scale-105"
-              >
-                <span>Get Started</span>
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" className="transition-transform duration-300 group-hover:translate-x-1">
-                  <path d="M3 8h10M9 4l4 4-4 4" />
-                </svg>
-              </Link>
-
-              <button
-                type="button"
-                onClick={() => setShowreelOpen(true)}
-                className="group flex items-center gap-3.5 text-sm font-medium text-linen transition-colors hover:text-rose cursor-pointer"
-              >
-                <span className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-linen/40 bg-ink/50 backdrop-blur-md transition-all duration-300 group-hover:scale-110 group-hover:border-rose group-hover:bg-rose/20">
-                  <svg width="13" height="13" viewBox="0 0 12 12" fill="currentColor" className="ml-0.5 transition-transform group-hover:scale-110">
-                    <path d="M2 1l9 5-9 5z" />
-                  </svg>
+        <div className="relative z-10 mx-auto max-w-content px-6 md:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            {/* Left Column: Headline, Description, CTAs, Social Proof */}
+            <div className="lg:col-span-7 flex flex-col justify-center max-w-2xl">
+              {/* Badge Tag (No location, pure brand clarity) */}
+              <div className="mb-5 inline-flex items-center gap-2">
+                <span className="flex h-2 w-2 rounded-full bg-rose-deep animate-pulse" />
+                <span className="text-[12px] font-bold tracking-[0.18em] text-rose-deep uppercase">
+                  ON-DEMAND CINEMATIC CONTENT CREW
                 </span>
-                <span className="tracking-wide">Watch Showreel</span>
-              </button>
-            </motion.div>
-          </div>
-        </div>
+              </div>
 
-        {/* Bottom Banner Bar */}
-        <div className="relative z-10 mx-auto flex w-full max-w-content justify-between items-center px-6 pb-8 md:px-8">
-          <div className="flex gap-5 text-xs tracking-widest text-linen/60">
-            <span className="font-semibold text-rose border-b-2 border-rose pb-1">01 CINEMA</span>
-            <span className="opacity-50">02 COLOR</span>
-            <span className="opacity-50">03 SOUND</span>
-          </div>
-          <div className="flex gap-8 text-xs tracking-widest text-linen/50">
-            <span className="hover:text-rose transition-colors">CAPTURE</span>
-            <span className="hover:text-rose transition-colors">CREATE</span>
-            <span className="hover:text-rose transition-colors">INSPIRE</span>
-          </div>
-        </div>
+              {/* Big Bold Headline */}
+              <h1 className="font-serif text-[42px] sm:text-[56px] lg:text-[68px] font-semibold leading-[1.04] tracking-tight text-bark">
+                Your event.
+                <span className="block mt-1 bg-gradient-to-r from-rose-deep via-rose to-[#d97736] bg-clip-text text-transparent italic">
+                  In a flash. ⚡
+                </span>
+              </h1>
 
-        {/* Vertical decorative label */}
-        <div
-          className="pointer-events-none absolute right-8 top-1/3 hidden font-serif text-xl italic tracking-widest text-linen/60 lg:block select-none"
-          style={{ writingMode: "vertical-rl" }}
-        >
-          More than Memories
+              {/* Subtitle */}
+              <p className="mt-6 text-base sm:text-lg leading-relaxed text-sand max-w-xl">
+                Book a dedicated creator for your wedding, birthday, café, brand launch
+                or any moment worth remembering. Shot beautifully on 4K cinema gear. Edited fast. Ready to post.
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="mt-9 flex flex-wrap items-center gap-4 sm:gap-6">
+                <Link
+                  href="/contact"
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-8 py-4 text-sm font-semibold text-linen shadow-xl transition-all duration-300 hover:bg-rose-deep hover:shadow-[0_10px_25px_rgba(143,70,54,0.35)] hover:scale-105 active:scale-95"
+                >
+                  <span>Book Insta Reel</span>
+                  <span className="font-mono text-xs transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">
+                    ↗
+                  </span>
+                </Link>
+
+                <a
+                  href="#reel-showcase"
+                  className="inline-flex items-center gap-2 rounded-full border border-bark/20 bg-white/80 px-7 py-4 text-sm font-semibold text-bark backdrop-blur-sm shadow-sm transition-all duration-300 hover:border-rose hover:bg-white hover:text-rose-deep active:scale-95"
+                >
+                  <span>See our work</span>
+                  <span className="text-xs">↓</span>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => setShowreelOpen(true)}
+                  className="inline-flex items-center gap-2.5 text-sm font-medium text-bark/80 hover:text-rose-deep transition-colors cursor-pointer py-2 px-1"
+                >
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-linen2/80 text-rose-deep border border-bark/10 transition-transform hover:scale-110">
+                    <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" className="ml-0.5">
+                      <path d="M2 1l9 5-9 5z" />
+                    </svg>
+                  </span>
+                  <span className="text-xs tracking-wider uppercase font-semibold">Watch Showreel</span>
+                </button>
+              </div>
+
+              {/* Social Proof Avatar Stack (No location string) */}
+              <div className="mt-10 pt-8 border-t border-bark/10 flex items-center gap-4">
+                <div className="flex -space-x-2.5 overflow-hidden">
+                  <div className="relative h-10 w-10 rounded-full ring-2 ring-[#faf6f0] overflow-hidden">
+                    <Image src="/photos/hero-bride.jpg" alt="Host avatar" fill className="object-cover" sizes="40px" />
+                  </div>
+                  <div className="relative h-10 w-10 rounded-full ring-2 ring-[#faf6f0] overflow-hidden">
+                    <Image src="/photos/service-weddings.jpg" alt="Host avatar" fill className="object-cover" sizes="40px" />
+                  </div>
+                  <div className="relative h-10 w-10 rounded-full ring-2 ring-[#faf6f0] overflow-hidden">
+                    <Image src="/photos/service-portraits.jpg" alt="Host avatar" fill className="object-cover" sizes="40px" />
+                  </div>
+                  <div className="relative h-10 w-10 rounded-full ring-2 ring-[#faf6f0] overflow-hidden">
+                    <Image src="/photos/about-moment.jpg" alt="Host avatar" fill className="object-cover" sizes="40px" />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-1 text-amber-500 text-xs">
+                    {"★★★★★"}
+                    <span className="text-bark font-bold text-xs ml-1">4.9/5</span>
+                  </div>
+                  <p className="text-xs sm:text-[13px] font-medium text-sand mt-0.5">
+                    <span className="font-bold text-bark">5,000+</span> happy hosts & couples booked this year
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Mandatory 3D Phone Mockup */}
+            <div className="lg:col-span-5 flex items-center justify-center pt-4 lg:pt-0">
+              <HeroPhoneMockup
+                videoSrc="/videos/reel1.mp4"
+                posterSrc="/photos/hero-bride.jpg"
+                title="Ananya's Sangeet Night"
+                subtitle="Wedding & Grand Celebration"
+                creatorName="Arriving in 12 min"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -217,8 +211,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3D Fan Deck Section (ReelOnGo signature 3D animation) */}
-      <section className="bg-[#fbf7f0] py-28 relative overflow-hidden border-y border-bark/10">
+      {/* 3D Fan Deck Section (Signature 3D animation) */}
+      <section id="reel-showcase" className="bg-[#fbf7f0] py-28 relative overflow-hidden border-y border-bark/10">
         <div className="mx-auto max-w-content px-6 md:px-8 text-center mb-10">
           <MotionReveal>
             <span className="text-[13px] font-semibold tracking-[0.18em] text-rose-deep uppercase">
