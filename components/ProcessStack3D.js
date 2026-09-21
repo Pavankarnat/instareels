@@ -162,15 +162,15 @@ export default function ProcessStack3D() {
           </p>
         </div>
 
-        {/* Step Navigation Pills */}
-        <div className="flex justify-center mb-6 sm:mb-8 overflow-x-auto no-scrollbar py-1">
-          <div className="inline-flex items-center gap-1 sm:gap-2 p-1.5 rounded-full bg-white/90 border border-bark/10 backdrop-blur-md shadow-sm flex-nowrap">
+        {/* Step Navigation Pills (Never cut off on mobile) */}
+        <div className="w-full overflow-x-auto no-scrollbar py-1 mb-6 sm:mb-8 flex justify-start sm:justify-center px-2 sm:px-4">
+          <div className="inline-flex items-center gap-1 sm:gap-2 p-1 sm:p-1.5 rounded-full bg-white/95 border border-bark/10 backdrop-blur-md shadow-sm flex-nowrap mx-auto flex-shrink-0">
             {PROCESS_STEPS.map((s, idx) => (
               <button
                 key={s.step}
                 type="button"
                 onClick={() => setCurrentStep(idx)}
-                className={`relative px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-bold tracking-wider transition-all duration-300 whitespace-nowrap ${
+                className={`relative px-2.5 xs:px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[10px] xs:text-[11px] sm:text-xs font-bold tracking-wider transition-all duration-300 whitespace-nowrap ${
                   currentStep === idx
                     ? "bg-rose-deep text-linen shadow-md scale-105"
                     : currentStep > idx
@@ -178,8 +178,10 @@ export default function ProcessStack3D() {
                     : "text-sand hover:text-bark hover:bg-bark/5"
                 }`}
               >
-                {s.step}
-                {currentStep > idx && <span className="ml-1 text-[10px]">✓</span>}
+                <span>
+                  <span className="hidden xs:inline">STEP </span>0{idx + 1}
+                </span>
+                {currentStep > idx && <span className="ml-1 text-[9px] sm:text-[10px]">✓</span>}
               </button>
             ))}
           </div>
